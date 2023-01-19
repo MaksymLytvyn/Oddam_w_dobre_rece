@@ -74,7 +74,7 @@ li {
   text-align: center;
   line-height: 1.5em;
   font-size: 2em;
-  margin: 0px 100px 0 0;
+  margin: 0 100px 0 0;
   font-family: $font-base;
   color: $dark-grey;
 }
@@ -179,3 +179,145 @@ li {
   color: $dark-grey;
   margin: 0 150px 80px 50px;
 }
+
+#o-co-chodzi {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  background-color: #fff;
+  font-size: 1.5em;
+  margin: 55px 0 150px 0;
+}
+.icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  background-color: $light-grey;
+  height: 325px;
+  width: 100%;
+  margin-bottom: 50px;
+  font-size: 1.5em;
+}
+
+.first-icon {
+  width: 120px;
+  display: flex;
+  font-size: 0.4em;
+  color: $dark-grey;
+  margin-left: 300px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.first-icon-bg {
+  width: 83px;
+  height: 83px;
+  margin-bottom: 15px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/Icon-1.svg');
+}
+
+.second-icon {
+  width: 120px;
+  display: flex;
+  font-size: 0.4em;
+  color: $dark-grey;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.second-icon-bg {
+  width: 83px;
+  height: 83px;
+  margin-bottom: 15px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/Icon-2.svg');
+}
+
+.third-icon {
+  width: 120px;
+  display: flex;
+  font-size: 0.4em;
+  color: $dark-grey;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.third-icon-bg {
+  width: 83px;
+  height: 83px;
+  margin-bottom: 15px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/Icon-3.svg');
+}
+
+.fourth-icon {
+  width: 140px;
+  display: flex;
+  font-size: 0.4em;
+  color: $dark-grey;
+  margin-right: 300px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fourth-icon-bg {
+  width: 83px;
+  height: 83px;
+  margin-bottom: 15px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/Icon-4.svg');
+}
+.main-button-o-co-chodzi {
+  @extend .main-button;
+  margin-bottom: 50px;
+  padding: 10px;
+  width: 200px;
+}
+#o-nas {
+  display: flex;
+  height: 100vh;
+  justify-content: space-between;
+}
+.o-nas-lewo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #F0F1F1;
+  width: 50%;
+}
+.o-nas-text {
+  text-align: center;
+  color: $dark-grey;
+  font-size: 1.5em;
+  margin-bottom: 50px;
+}
+.o-nas-prawo {
+  width: 50%;
+  background-position: -250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('../assets/People.jpg');
+}
+.signature {
+  width: 25%;
+  height: 12%;
+  margin-left: 500px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/Signature.svg');
+}
+
