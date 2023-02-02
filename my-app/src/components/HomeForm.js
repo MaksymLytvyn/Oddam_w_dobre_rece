@@ -1,68 +1,130 @@
-import React, {useState, useEffect} from 'react';
+import React from "react";
+import axios from "axios";
+import { useState } from "react";
 
 const HomeForm = () => {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        message: ""
-    })
+    const [form, setForm] = useState({
+        name: [],
+        email: [],
+        message: [],
+    });
+    const [errors, setErrors] = useState({
+        name: [],
+        email: [],
+        message: [],
+    });
+    const axiosHeader = {
+        "Content-Type": "application/json",
+    };
 
-    const handleForm = (e) => {
-        setFormData((prev) => {
-            return {
-                ...prev,
-                [e.target.name]: e.target.value
-            }
-        })
-    }
+    const validateFields = () => {
+        let errorsFound = {
+            name: [],
+            email: [],
+            message: [],
+        };
 
-    const sendForm = (e) => {
+        let nameValue = /^[a-zA-ZżŻćĆóÓ]+$/;
+        !form.name && errorsFound.name.push("Imię nie może być puste");
+        !nameValue.test(form.name) &&
+        errorsFound.name.push("Podane imię jest nieprawidłowe");
+
+        const emailValue = /^\S+@\S+\.\S+$/;
+        !emailValue.test(form.email) &&
+        errorsFound.email.push("Podany email jest nieprawidłowy");
+
+        form.message.length < 120 &&
+        errorsFound.message.push("Wiadomość musi mieć conajmniej 120 znaków");
+
+        setErrors(errorsFound);
+        return (
+            errorsFound.name.length === 0 &&
+            errorsFound.email.length === 0 &&
+            errorsFound.message.length === 0
+        );
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if (formData.name.indexOf(" ") === -1 && formData.email.includes("@") && formData.message.length >= 120) {
-            fetch("https://fer-api.coderslab.pl/v1/portfolio/contact", {
-                method: "Post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            })
-                .then(res => res.json())
-                .then(res2 => console.log(res2))
-                .catch(error => console.log(error))
-        }
-        else {
-            console.log("Błąd walidacji")
-        }
-    }
+        validateFields() && sendData();
+    };
 
+    const sendData = () => {
+        console.log("wysłano dane");
+
+        axios
+            .post(
+                "https://fer-api.coderslab.pl/v1/portfolio/contact",
+                form,
+                axiosHeader
+            )
+            .catch((error) =>
+                setErrors({
+                    name: error.response.data.errors
+                        .filter((e) => e.param === "name")
+                        .map((e) => e.msg),
+                    email: error.response.data.errors
+                        .filter((e) => e.param === "email")
+                        .map((e) => e.msg),
+                    message: error.response.data.errors
+                        .filter((e) => e.param === "message")
+                        .map((e) => e.msg),
+                })
+            );
+    };
 
     return (
-        <form onSubmit={sendForm}>
-            <label>
-                Name
-                <input
-                    name="name"
-                    value={formData.name}
-                    onChange={(e) => handleForm(e)}
-                />
-            </label>
-            <label>
-                Email
-                <input
-                    name="email"
-                    value={formData.email}
-                    onChange={(e) => handleForm(e)}
-                />
-            </label>
-            <label>
-                Message
-                <input
+        <form onSubmit={handleSubmit}>
+            <div className="contactForm-formBox">
+                <div className="contactForm-inputBox">
+                    <label htmlFor="name">Imię</label>
+                    <div className="contactForm-inputWrapper">
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder="Maksym"
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="contactForm-errors">{errors.name}</div>
+                </div>
+                <div className="contactForm-inputBox">
+                    <label htmlFor="email">Email</label>
+                    <div className="contactForm-inputWrapper">
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="abc@xyz.pl"
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="contactForm-errors"> {errors.email}</div>
+                </div>
+            </div>
+            <div className="contactForm-inputBox contactForm-messageBox">
+                <label htmlFor="message">Wiadomość</label>
+                <textarea
                     name="message"
-                    value={formData.message}
-                    onChange={(e) => handleForm(e)}
+                    id="message"
+                    placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
+                    onChange={handleChange}
                 />
-            </label>
-            <button>Send</button>
+                <div className="contactForm-errors">{errors.message} </div>
+            </div>
+            <div className="contactForm-buttonWrapper">
+                <button className="contactForm-submit" type="submit">
+                    Wyślij
+                </button>
+            </div>
         </form>
     );
 };
